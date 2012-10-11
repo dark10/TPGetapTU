@@ -178,4 +178,11 @@ public class DemandeValidationConsoTempsAccPers {
 				+ ", eleve=" + eleve + ", etat=" + etat + "]";
 	}
 
+	public boolean isEtatInitial() {
+		if(this.getEtat() == 0)
+			return true;
+		else
+			return false;
+	}
+
 }
