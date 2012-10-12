@@ -9,9 +9,19 @@ import java.sql.Date;
  */
 
 public class DemandeValidationConsoTempsAccPers {
-	private static final int DATE_MODIFIEE = 1024;
-	private static final int DUREE_MODIFIEE = 2048;
-	private static final int AP_MODIFIEE = 4096;
+	private static final int DVCTAP_CREE = 0;
+	
+	private static final int DVCTAP_ACCEPT_ELEVE_APRES_MODIF_PROF = 1;
+	private static final int DVCTAP_REFUS_ELEVE_APRES_MODIF_PROF = 2;
+	private static final int DVCTAP_MODIF_ELEVE = 4;
+	private static final int DVCTAP_ANNULE_ELEVE = 8;
+	
+	private static final int DVCTAP_ACCEPT_PROF = 32;
+	private static final int DVCTAP_REFUS_PROF = 64;
+	
+	private static final int DVCTAP_DATE_MODIF_PROF = 1024;
+	private static final int DVCTAP_DUREE_MODIF_PROF = 2048;
+	private static final int DVCTAP_AP_MODIF_PROF = 4096;
 
 	/**
 	 * Identifiant de la DCTAP
@@ -178,11 +188,96 @@ public class DemandeValidationConsoTempsAccPers {
 				+ ", eleve=" + eleve + ", etat=" + etat + "]";
 	}
 
+	
 	public boolean isEtatInitial() {
-		if(this.getEtat() == 0)
-			return true;
-		else
-			return false;
+
+		boolean bool = ((this.getEtat() & DVCTAP_CREE) == DVCTAP_CREE);
+		return bool;
+	}
+	
+	public boolean isModifEleve() {
+		boolean bool = ((this.getEtat() & DVCTAP_MODIF_ELEVE) == DVCTAP_MODIF_ELEVE);
+		return bool;
+	}
+	public boolean isAnnuleEleve() {
+		boolean bool = ((this.getEtat() & DVCTAP_ANNULE_ELEVE) == DVCTAP_ANNULE_ELEVE);
+		return bool;
+	}
+		
+	public boolean isAcceptProf() {
+		boolean bool = ((this.getEtat() & DVCTAP_ACCEPT_PROF) == DVCTAP_ACCEPT_PROF);
+		return bool;
+	}
+	public boolean isRefusProf() {
+		boolean bool = ((this.getEtat() & DVCTAP_REFUS_PROF) == DVCTAP_REFUS_PROF);
+		return bool;
 	}
 
+	public boolean isModifDureeProf() {
+		boolean bool = ((this.getEtat() & DVCTAP_DUREE_MODIF_PROF) == DVCTAP_DUREE_MODIF_PROF);
+		return bool;		
+	}
+	public boolean isModifDateProf() {
+		boolean bool = ((this.getEtat() & DVCTAP_DATE_MODIF_PROF) == DVCTAP_DATE_MODIF_PROF);
+		return bool;		
+	}
+	public boolean isModifApProf() {
+		boolean bool = ((this.getEtat() & DVCTAP_AP_MODIF_PROF) == DVCTAP_AP_MODIF_PROF);
+		return bool;		
+	}
+	
+	public boolean isAcceptEleveModifProf() {
+		boolean bool = ((this.getEtat() & DVCTAP_ACCEPT_ELEVE_APRES_MODIF_PROF) == DVCTAP_ACCEPT_ELEVE_APRES_MODIF_PROF);
+		return bool;
+	}
+	public boolean isRefusEleveModifProf() {
+		boolean bool = ((this.getEtat() & DVCTAP_REFUS_ELEVE_APRES_MODIF_PROF) == DVCTAP_REFUS_ELEVE_APRES_MODIF_PROF);
+		return bool;
+	}
+	
+	
+	public void setModifEleve(){
+		if(this.isEtatInitial() || this.isModifEleve())
+			this.setEtat(DVCTAP_MODIF_ELEVE);
+	}
+	public void setAnnuleEleve(){
+		if(this.isEtatInitial() || this.isModifEleve())
+			this.setEtat(DVCTAP_ANNULE_ELEVE);
+	}
+
+	public void setAcceptProf(){
+		if(this.isEtatInitial() || this.isModifEleve())
+			this.setEtat(DVCTAP_ACCEPT_PROF);
+	}
+	public void setRefusProf(){
+		if(this.isEtatInitial() || this.isModifEleve())
+			this.setEtat(DVCTAP_REFUS_PROF);
+	}
+
+	public void setModifDureeProf(){
+		if(this.isEtatInitial() || this.isModifEleve() || this.isModifDureeProf()
+				|| this.isModifDateProf()|| this.isModifApProf())
+			this.setEtat(DVCTAP_DUREE_MODIF_PROF);
+	}
+	public void setModifDateProf(){
+		if(this.isEtatInitial() || this.isModifEleve() || this.isModifDureeProf()
+				|| this.isModifDateProf() || this.isModifApProf())
+			this.setEtat(DVCTAP_DATE_MODIF_PROF);
+	}
+	public void setModifApProf(){
+		if(this.isEtatInitial() || this.isModifEleve() || this.isModifDureeProf()
+				|| this.isModifDateProf() || this.isModifApProf())
+			this.setEtat(DVCTAP_AP_MODIF_PROF);
+	}
+
+	public void setAcceptEleveModifProf(){
+		if(this.isModifDateProf() || this.isModifDureeProf()
+				|| this.isModifApProf())
+			this.setEtat(DVCTAP_ACCEPT_ELEVE_APRES_MODIF_PROF);
+	}
+	public void setRefusEleveModifProf(){
+		if(this.isModifDateProf() || this.isModifDureeProf()
+				|| this.isModifApProf())
+			this.setEtat(DVCTAP_REFUS_ELEVE_APRES_MODIF_PROF);
+	}
 }
