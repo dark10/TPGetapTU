@@ -191,47 +191,47 @@ public class DemandeValidationConsoTempsAccPers {
 	
 	public boolean isEtatInitial() {
 
-		boolean bool = ((this.getEtat() & DVCTAP_CREE) == DVCTAP_CREE);
+		boolean bool = ((this.etat & DVCTAP_CREE) != 0);
 		return bool;
 	}
 	
 	public boolean isModifEleve() {
-		boolean bool = ((this.getEtat() & DVCTAP_MODIF_ELEVE) == DVCTAP_MODIF_ELEVE);
+		boolean bool = ((this.etat & DVCTAP_MODIF_ELEVE) == DVCTAP_MODIF_ELEVE);
 		return bool;
 	}
 	public boolean isAnnuleEleve() {
-		boolean bool = ((this.getEtat() & DVCTAP_ANNULE_ELEVE) == DVCTAP_ANNULE_ELEVE);
+		boolean bool = ((this.etat & DVCTAP_ANNULE_ELEVE) == DVCTAP_ANNULE_ELEVE);
 		return bool;
 	}
 		
 	public boolean isAcceptProf() {
-		boolean bool = ((this.getEtat() & DVCTAP_ACCEPT_PROF) == DVCTAP_ACCEPT_PROF);
+		boolean bool = ((this.etat & DVCTAP_ACCEPT_PROF) == DVCTAP_ACCEPT_PROF);
 		return bool;
 	}
 	public boolean isRefusProf() {
-		boolean bool = ((this.getEtat() & DVCTAP_REFUS_PROF) == DVCTAP_REFUS_PROF);
+		boolean bool = ((this.etat & DVCTAP_REFUS_PROF) == DVCTAP_REFUS_PROF);
 		return bool;
 	}
 
 	public boolean isModifDureeProf() {
-		boolean bool = ((this.getEtat() & DVCTAP_DUREE_MODIF_PROF) == DVCTAP_DUREE_MODIF_PROF);
+		boolean bool = ((this.etat & DVCTAP_DUREE_MODIF_PROF) == DVCTAP_DUREE_MODIF_PROF);
 		return bool;		
 	}
 	public boolean isModifDateProf() {
-		boolean bool = ((this.getEtat() & DVCTAP_DATE_MODIF_PROF) == DVCTAP_DATE_MODIF_PROF);
+		boolean bool = ((this.etat & DVCTAP_DATE_MODIF_PROF) == DVCTAP_DATE_MODIF_PROF);
 		return bool;		
 	}
 	public boolean isModifApProf() {
-		boolean bool = ((this.getEtat() & DVCTAP_AP_MODIF_PROF) == DVCTAP_AP_MODIF_PROF);
+		boolean bool = ((this.etat & DVCTAP_AP_MODIF_PROF) == DVCTAP_AP_MODIF_PROF);
 		return bool;		
 	}
 	
 	public boolean isAcceptEleveModifProf() {
-		boolean bool = ((this.getEtat() & DVCTAP_ACCEPT_ELEVE_APRES_MODIF_PROF) == DVCTAP_ACCEPT_ELEVE_APRES_MODIF_PROF);
+		boolean bool = ((this.etat & DVCTAP_ACCEPT_ELEVE_APRES_MODIF_PROF) == DVCTAP_ACCEPT_ELEVE_APRES_MODIF_PROF);
 		return bool;
 	}
 	public boolean isRefusEleveModifProf() {
-		boolean bool = ((this.getEtat() & DVCTAP_REFUS_ELEVE_APRES_MODIF_PROF) == DVCTAP_REFUS_ELEVE_APRES_MODIF_PROF);
+		boolean bool = ((this.etat & DVCTAP_REFUS_ELEVE_APRES_MODIF_PROF) == DVCTAP_REFUS_ELEVE_APRES_MODIF_PROF);
 		return bool;
 	}
 	
