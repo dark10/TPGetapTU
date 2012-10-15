@@ -236,46 +236,46 @@ public class DemandeValidationConsoTempsAccPers {
 	}
 	
 	
-	public void setModifEleve(){
+	public void setModifEleve() throws DVCTAPException{
 		if(this.isEtatInitial() || this.isModifEleve())
 			this.setEtat(DVCTAP_MODIF_ELEVE);
 	}
-	public void setAnnuleEleve(){
+	public void setAnnuleEleve()throws DVCTAPException{
 		if(this.isEtatInitial() || this.isModifEleve())
 			this.setEtat(DVCTAP_ANNULE_ELEVE);
 	}
 
-	public void setAcceptProf(){
+	public void setAcceptProf()throws DVCTAPException{
 		if(this.isEtatInitial() || this.isModifEleve())
 			this.setEtat(DVCTAP_ACCEPT_PROF);
 	}
-	public void setRefusProf(){
+	public void setRefusProf()throws DVCTAPException{
 		if(this.isEtatInitial() || this.isModifEleve())
 			this.setEtat(DVCTAP_REFUS_PROF);
 	}
 
-	public void setModifDureeProf(){
+	public void setModifDureeProf()throws DVCTAPException{
 		if(this.isEtatInitial() || this.isModifEleve() || this.isModifDureeProf()
 				|| this.isModifDateProf()|| this.isModifApProf())
 			this.setEtat(DVCTAP_DUREE_MODIF_PROF);
 	}
-	public void setModifDateProf(){
+	public void setModifDateProf()throws DVCTAPException{
 		if(this.isEtatInitial() || this.isModifEleve() || this.isModifDureeProf()
 				|| this.isModifDateProf() || this.isModifApProf())
 			this.setEtat(DVCTAP_DATE_MODIF_PROF);
 	}
-	public void setModifApProf(){
+	public void setModifApProf()throws DVCTAPException{
 		if(this.isEtatInitial() || this.isModifEleve() || this.isModifDureeProf()
 				|| this.isModifDateProf() || this.isModifApProf())
 			this.setEtat(DVCTAP_AP_MODIF_PROF);
 	}
 
-	public void setAcceptEleveModifProf(){
+	public void setAcceptEleveModifProf()throws DVCTAPException{
 		if(this.isModifDateProf() || this.isModifDureeProf()
 				|| this.isModifApProf())
 			this.setEtat(DVCTAP_ACCEPT_ELEVE_APRES_MODIF_PROF);
 	}
-	public void setRefusEleveModifProf(){
+	public void setRefusEleveModifProf()throws DVCTAPException{
 		if(this.isModifDateProf() || this.isModifDureeProf()
 				|| this.isModifApProf())
 			this.setEtat(DVCTAP_REFUS_ELEVE_APRES_MODIF_PROF);

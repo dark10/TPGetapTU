@@ -36,18 +36,26 @@ public class DemandeValidationConsoTempsAccPersTest {
 	// etat 0 -> etat 4
 	@Test
 	public void testModifEleve() {
+		try {
 		dvctap.setModifEleve();
 		assertTrue("Etat : Modifiee par eleve", dvctap.isModifEleve());
+		}
+		catch(DVCTAPException e){
+			
+		}
 	}
 	
 	// etat 4 -> 
 	@Test
 	public void testAnnuleEleve() {
+		try  {
 		dvctap.setModifDureeProf();
 		dvctap.setAnnuleEleve();
 		assertTrue("Etat : Annulee par eleve", dvctap.isAnnuleEleve());
+		}
+		catch(DVCTAPException e){
+			
+		}
+	
 	}
-	
-	
-
 }
