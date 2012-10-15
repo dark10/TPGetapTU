@@ -6,17 +6,13 @@ import java.sql.Date;
 import org.junit.Before;
 import org.junit.Test;
 /**
- * Classe de test des DVCTAP
+ * Classe de test d'une DVCTAP
  * @author Hugo Lecolle, Hugo Suissia
  * @version 1.0
  */
 public class DemandeValidationConsoTempsAccPersTest {
 	
-	/**
-	 * Test d'une création d'un étudiant, d'un professeur et d'une DVCTAP qui leur sont approprié.
-	 * @return Erreur si jamais il y a une faute des les constructeur sinon cela ne retourne rien.
-	 */
-	@Test
+	@Before
 	  public void setUp() throws Exception {
 		
 	}
@@ -34,29 +30,45 @@ public class DemandeValidationConsoTempsAccPersTest {
 	DemandeValidationConsoTempsAccPers dvctap = new DemandeValidationConsoTempsAccPers(
 			1L, "2012",date, 240, 
 			prof, test, 
-			eleve,4);
+			eleve,7);
 	
 	
 	/**
-	 * Test de la valeur initial d'une DVCTAP.
-	 * @return Failure si isEtatInitial =! 0 
+	 * Permet de tester que la DVCTAP est a l'etat initial
+	 * 
+	 * Test l'etat de l'objet et il y a
+	 * Failure si l'etat de la DVCTAP != 7
+	 * 
+	 * Une exception est retournee en cas d'echec.
 	 */
-	// etat = 0 = etat initial
+	
 	@Test
 	public void testEtatInitial() {
-		assertTrue("Etat : Initial", dvctap.isEtatInitial());
+		try {
+			assertTrue("Etat : Initial", dvctap.isEtatInitial());
+		}
+		catch(DVCTAPException e){
+			System.out.println(e.toString());
+		}
 	}
 	
 	/**
-	 * Test une modification de l'etat apres la modification d'un eleve.
-	 * @return Ne retourne rien pour les états de 0 a 4
+	 * Permet de tester que la DVCTAP passe a l'etat modifie par l'eleve
+	 * 
+	 * Test que l'objet à pu parcourir le chemin d'etat specifie :
+	 * 		Chemin d'etat 'passant le test' ex : 7 -> 4.
+	 * 		// Chemin d'etat entrainant 'Failure' ex : 7 -> 8 -> (passage impossible vers 4).
+	 * Failure si l'etat de la DVCTAP != 4, en fin de chemin
+	 * 
+	 *  Une exception est retournee en cas d'echec.
 	 */
-	// etat 0 -> etat 4
+	
 	@Test
 	public void testModifEleve() {
 		try {
-		dvctap.setModifEleve();
-		assertTrue("Etat : Modifiee par eleve", dvctap.isModifEleve());
+			// dvctap.setAnnuleEleve();
+			dvctap.setModifEleve();
+		    assertTrue("Etat : Modifiee par eleve", dvctap.isModifEleve());
 		}
 		catch(DVCTAPException e){
 			
@@ -64,20 +76,24 @@ public class DemandeValidationConsoTempsAccPersTest {
 	}
 	
 	/**
-	 * Test une modification de l'etat apres l'annulation d'un eleve.
-	 * @return Retourne failure pour les états supérieur a 4
+	 * Permet de tester que la DVCTAP passe a l'etat annule par l'eleve
+	 * 
+	 * Test que l'objet à pu parcourir le chemin d'etat specifie
+	 * 		Chemin d'etat 'passant le test' ex : 7 -> 4 -> 8.
+	 * 		// Chemin d'etat entrainant 'Failure' ex : 7 -> 1024 -> (passage impossible vers 8).
+	 * Failure si l'etat de la DVCTAP != 4 en fin de chemin
+	 * 
+	 * Une exception est retournee en cas d'echec.
 	 */
-	// etat 4 -> 
+	 
 	@Test
 	public void testAnnuleEleve() {
 		try  {
-		dvctap.setModifDureeProf();
-		dvctap.setAnnuleEleve();
-		assertTrue("Etat : Annulee par eleve", dvctap.isAnnuleEleve());
+			// dvctap.setModifDateProf();
+			dvctap.setAnnuleEleve();
+			assertTrue("Etat : Annulee par eleve", dvctap.isAnnuleEleve());
 		}
 		catch(DVCTAPException e){
-			
 		}
-	
 	}
 }
