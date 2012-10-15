@@ -187,13 +187,34 @@ public class DemandeValidationConsoTempsAccPers {
 				+ minutes + ", prof=" + prof + ", accPers=" + accPers
 				+ ", eleve=" + eleve + ", etat=" + etat + "]";
 	}
-
+	
+	 /**
+	  * On test l'etat de la DVCTAP
+	  * dans differents cas;
+	  * 
+	  * A l'aide de la variable bool (boolean).
+	  */
+	 
+	 /**
+	  * On lui donne pour attribut le resultat de
+	  * dvctap.etat & DVCTAP_CREE == DVCTAP_CREE
+	  * 
+	  * @Return bool = True; si l'etat de dvctap = 7 : etat initial.
+	  */
 	
 	public boolean isEtatInitial() {
 
 		boolean bool = ((this.etat & DVCTAP_CREE) != 0);
 		return bool;
 	}
+	
+	
+	 /**
+	  * On lui donne pour attribut le resultat de
+	  * dvctap.etat & DVCTAP_MODIF_ELEVE == DVCTAP_MODIF_ELEVE
+	  * 
+	  * @Return bool = True; si l'etat de dvctap = 4 : etat modifie par l'eleve.
+	  */ 
 	
 	public boolean isModifEleve() {
 		boolean bool = ((this.etat & DVCTAP_MODIF_ELEVE) == DVCTAP_MODIF_ELEVE);
@@ -217,6 +238,13 @@ public class DemandeValidationConsoTempsAccPers {
 		boolean bool = ((this.etat & DVCTAP_DUREE_MODIF_PROF) == DVCTAP_DUREE_MODIF_PROF);
 		return bool;		
 	}
+	
+	/**
+	  * On lui donne pour attribut le resultat de
+	  * dvctap.etat & DVCTAP_DATE_MODIF_PROF == DVCTAP_DATE_MODIF_PROF
+	  * 
+	  * @Return bool = True; si l'etat de dvctap = 1024 : etat modifie la date par le prof.
+	*/ 
 	public boolean isModifDateProf() {
 		boolean bool = ((this.etat & DVCTAP_DATE_MODIF_PROF) == DVCTAP_DATE_MODIF_PROF);
 		return bool;		
@@ -234,12 +262,35 @@ public class DemandeValidationConsoTempsAccPers {
 		boolean bool = ((this.etat & DVCTAP_REFUS_ELEVE_APRES_MODIF_PROF) == DVCTAP_REFUS_ELEVE_APRES_MODIF_PROF);
 		return bool;
 	}
-	
+	/**
+	 * Change l'etat de la dvctap si c'est possible
+	  * sinon elle renvoi une Exception
+	  * 
+	  * @throws DVCTAPException
+	  *
+	  *
+	  * Cet methode change l'etat de l'objet :
+	  *   -> DVCTAP_MODIF_ELEVE si les conditions sont respectees;
+	  *    - etat = 7; // etat initial
+	  *     OU
+	  *    - etat = 4; // etat modifie par l'eleve
+	  *   -> la valeur de l'attribut reste le meme, dans le cas contraire.
+	 */
 	
 	public void setModifEleve() throws DVCTAPException{
 		if(this.isEtatInitial() || this.isModifEleve())
 			this.setEtat(DVCTAP_MODIF_ELEVE);
 	}
+	
+	/**
+	  * Cet methode change l'etat de l'objet :
+	  *   -> DVCTAP_ANNULE_ELEVE si les conditions sont respectees;
+	  *    - etat = 7; // etat initial
+	  *     OU
+	  *    - etat = 4; // etat modifie par l'eleve
+	  *   -> la valeur de l'attribut reste le meme, dans le cas contraire.
+	*/
+	
 	public void setAnnuleEleve()throws DVCTAPException{
 		if(this.isEtatInitial() || this.isModifEleve())
 			this.setEtat(DVCTAP_ANNULE_ELEVE);

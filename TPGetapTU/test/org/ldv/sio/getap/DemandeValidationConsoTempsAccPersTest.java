@@ -12,7 +12,7 @@ import org.junit.Test;
  */
 public class DemandeValidationConsoTempsAccPersTest {
 	
-	@Before
+	@Test
 	  public void setUp() throws Exception {
 		
 	}
