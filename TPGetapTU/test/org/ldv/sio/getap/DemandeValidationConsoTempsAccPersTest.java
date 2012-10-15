@@ -5,10 +5,18 @@ import static org.junit.Assert.*;
 import java.sql.Date;
 import org.junit.Before;
 import org.junit.Test;
-
+/**
+ * Classe de test des DVCTAP
+ * @author Hugo Lecolle, Hugo Suissia
+ * @version 1.0
+ */
 public class DemandeValidationConsoTempsAccPersTest {
 	
-	@Before
+	/**
+	 * Test d'une création d'un étudiant, d'un professeur et d'une DVCTAP qui leur sont approprié.
+	 * @return Erreur si jamais il y a une faute des les constructeur sinon cela ne retourne rien.
+	 */
+	@Test
 	  public void setUp() throws Exception {
 		
 	}
@@ -27,12 +35,22 @@ public class DemandeValidationConsoTempsAccPersTest {
 			1L, "2012",date, 240, 
 			prof, test, 
 			eleve,4);
+	
+	
+	/**
+	 * Test de la valeur initial d'une DVCTAP.
+	 * @return Failure si isEtatInitial =! 0 
+	 */
 	// etat = 0 = etat initial
 	@Test
 	public void testEtatInitial() {
 		assertTrue("Etat : Initial", dvctap.isEtatInitial());
 	}
 	
+	/**
+	 * Test une modification de l'etat apres la modification d'un eleve.
+	 * @return Ne retourne rien pour les états de 0 a 4
+	 */
 	// etat 0 -> etat 4
 	@Test
 	public void testModifEleve() {
@@ -45,6 +63,10 @@ public class DemandeValidationConsoTempsAccPersTest {
 		}
 	}
 	
+	/**
+	 * Test une modification de l'etat apres l'annulation d'un eleve.
+	 * @return Retourne failure pour les états supérieur a 4
+	 */
 	// etat 4 -> 
 	@Test
 	public void testAnnuleEleve() {
