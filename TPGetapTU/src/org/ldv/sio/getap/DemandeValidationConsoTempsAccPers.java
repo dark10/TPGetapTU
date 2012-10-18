@@ -9,9 +9,19 @@ import java.sql.Date;
  */
 
 public class DemandeValidationConsoTempsAccPers {
-	private static final int DATE_MODIFIEE = 1024;
-	private static final int DUREE_MODIFIEE = 2048;
-	private static final int AP_MODIFIEE = 4096;
+	private static final int DVCTAP_CREE = 0;
+	
+	private static final int DVCTAP_ACCEPT_ELEVE_APRES_MODIF_PROF = 1;
+	private static final int DVCTAP_REFUS_ELEVE_APRES_MODIF_PROF = 2;
+	private static final int DVCTAP_MODIF_ELEVE = 4;
+	private static final int DVCTAP_ANNULE_ELEVE = 8;
+	
+	private static final int DVCTAP_ACCEPT_PROF = 32;
+	private static final int DVCTAP_REFUS_PROF = 64;
+	
+	private static final int DVCTAP_DATE_MODIF_PROF = 1024;
+	private static final int DVCTAP_DUREE_MODIF_PROF = 2048;
+	private static final int DVCTAP_AP_MODIF_PROF = 4096;
 
 	/**
 	 * Identifiant de la DCTAP
@@ -177,12 +187,148 @@ public class DemandeValidationConsoTempsAccPers {
 				+ minutes + ", prof=" + prof + ", accPers=" + accPers
 				+ ", eleve=" + eleve + ", etat=" + etat + "]";
 	}
-
+	
+	 /**
+	  * On test l'etat de la DVCTAP
+	  * dans differents cas;
+	  * 
+	  * A l'aide de la variable bool (boolean).
+	  */
+	 
+	 /**
+	  * On lui donne pour attribut le resultat de
+	  * dvctap.etat & DVCTAP_CREE == DVCTAP_CREE
+	  * 
+	  * @Return bool = True; si l'etat de dvctap = 7 : etat initial.
+	  */
+	
 	public boolean isEtatInitial() {
-		if(this.getEtat() == 0)
-			return true;
-		else
-			return false;
+
+		boolean bool = ((this.etat & DVCTAP_CREE) != 0);
+		return bool;
+	}
+	
+	
+	 /**
+	  * On lui donne pour attribut le resultat de
+	  * dvctap.etat & DVCTAP_MODIF_ELEVE == DVCTAP_MODIF_ELEVE
+	  * 
+	  * @Return bool = True; si l'etat de dvctap = 4 : etat modifie par l'eleve.
+	  */ 
+	
+	public boolean isModifEleve() {
+		boolean bool = ((this.etat & DVCTAP_MODIF_ELEVE) == DVCTAP_MODIF_ELEVE);
+		return bool;
+	}
+	public boolean isAnnuleEleve() {
+		boolean bool = ((this.etat & DVCTAP_ANNULE_ELEVE) == DVCTAP_ANNULE_ELEVE);
+		return bool;
+	}
+		
+	public boolean isAcceptProf() {
+		boolean bool = ((this.etat & DVCTAP_ACCEPT_PROF) == DVCTAP_ACCEPT_PROF);
+		return bool;
+	}
+	public boolean isRefusProf() {
+		boolean bool = ((this.etat & DVCTAP_REFUS_PROF) == DVCTAP_REFUS_PROF);
+		return bool;
 	}
 
+	public boolean isModifDureeProf() {
+		boolean bool = ((this.etat & DVCTAP_DUREE_MODIF_PROF) == DVCTAP_DUREE_MODIF_PROF);
+		return bool;		
+	}
+	
+	/**
+	  * On lui donne pour attribut le resultat de
+	  * dvctap.etat & DVCTAP_DATE_MODIF_PROF == DVCTAP_DATE_MODIF_PROF
+	  * 
+	  * @Return bool = True; si l'etat de dvctap = 1024 : etat modifie la date par le prof.
+	*/ 
+	public boolean isModifDateProf() {
+		boolean bool = ((this.etat & DVCTAP_DATE_MODIF_PROF) == DVCTAP_DATE_MODIF_PROF);
+		return bool;		
+	}
+	public boolean isModifApProf() {
+		boolean bool = ((this.etat & DVCTAP_AP_MODIF_PROF) == DVCTAP_AP_MODIF_PROF);
+		return bool;		
+	}
+	
+	public boolean isAcceptEleveModifProf() {
+		boolean bool = ((this.etat & DVCTAP_ACCEPT_ELEVE_APRES_MODIF_PROF) == DVCTAP_ACCEPT_ELEVE_APRES_MODIF_PROF);
+		return bool;
+	}
+	public boolean isRefusEleveModifProf() {
+		boolean bool = ((this.etat & DVCTAP_REFUS_ELEVE_APRES_MODIF_PROF) == DVCTAP_REFUS_ELEVE_APRES_MODIF_PROF);
+		return bool;
+	}
+	/**
+	 * Change l'etat de la dvctap si c'est possible
+	  * sinon elle renvoi une Exception
+	  * 
+	  * @throws DVCTAPException
+	  *
+	  *
+	  * Cet methode change l'etat de l'objet :
+	  *   -> DVCTAP_MODIF_ELEVE si les conditions sont respectees;
+	  *    - etat = 7; // etat initial
+	  *     OU
+	  *    - etat = 4; // etat modifie par l'eleve
+	  *   -> la valeur de l'attribut reste le meme, dans le cas contraire.
+	 */
+	
+	public void setModifEleve() throws DVCTAPException{
+		if(this.isEtatInitial() || this.isModifEleve())
+			this.setEtat(DVCTAP_MODIF_ELEVE);
+	}
+	
+	/**
+	  * Cet methode change l'etat de l'objet :
+	  *   -> DVCTAP_ANNULE_ELEVE si les conditions sont respectees;
+	  *    - etat = 7; // etat initial
+	  *     OU
+	  *    - etat = 4; // etat modifie par l'eleve
+	  *   -> la valeur de l'attribut reste le meme, dans le cas contraire.
+	*/
+	
+	public void setAnnuleEleve()throws DVCTAPException{
+		if(this.isEtatInitial() || this.isModifEleve())
+			this.setEtat(DVCTAP_ANNULE_ELEVE);
+	}
+
+	public void setAcceptProf()throws DVCTAPException{
+		if(this.isEtatInitial() || this.isModifEleve())
+			this.setEtat(DVCTAP_ACCEPT_PROF);
+	}
+	public void setRefusProf()throws DVCTAPException{
+		if(this.isEtatInitial() || this.isModifEleve())
+			this.setEtat(DVCTAP_REFUS_PROF);
+	}
+
+	public void setModifDureeProf()throws DVCTAPException{
+		if(this.isEtatInitial() || this.isModifEleve() || this.isModifDureeProf()
+				|| this.isModifDateProf()|| this.isModifApProf())
+			this.setEtat(DVCTAP_DUREE_MODIF_PROF);
+	}
+	public void setModifDateProf()throws DVCTAPException{
+		if(this.isEtatInitial() || this.isModifEleve() || this.isModifDureeProf()
+				|| this.isModifDateProf() || this.isModifApProf())
+			this.setEtat(DVCTAP_DATE_MODIF_PROF);
+	}
+	public void setModifApProf()throws DVCTAPException{
+		if(this.isEtatInitial() || this.isModifEleve() || this.isModifDureeProf()
+				|| this.isModifDateProf() || this.isModifApProf())
+			this.setEtat(DVCTAP_AP_MODIF_PROF);
+	}
+
+	public void setAcceptEleveModifProf()throws DVCTAPException{
+		if(this.isModifDateProf() || this.isModifDureeProf()
+				|| this.isModifApProf())
+			this.setEtat(DVCTAP_ACCEPT_ELEVE_APRES_MODIF_PROF);
+	}
+	public void setRefusEleveModifProf()throws DVCTAPException{
+		if(this.isModifDateProf() || this.isModifDureeProf()
+				|| this.isModifApProf())
+			this.setEtat(DVCTAP_REFUS_ELEVE_APRES_MODIF_PROF);
+	}
 }
