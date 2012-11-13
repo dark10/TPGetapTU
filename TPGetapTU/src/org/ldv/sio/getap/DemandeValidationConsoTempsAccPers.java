@@ -9,7 +9,7 @@ import java.sql.Date;
  */
 
 public class DemandeValidationConsoTempsAccPers {
-	private static final int DVCTAP_CREE = 0;
+	public static final int DVCTAP_CREE = 16;
 	
 	private static final int DVCTAP_ACCEPT_ELEVE_APRES_MODIF_PROF = 1;
 	private static final int DVCTAP_REFUS_ELEVE_APRES_MODIF_PROF = 2;
@@ -158,7 +158,7 @@ public class DemandeValidationConsoTempsAccPers {
 	 * @param etat
 	 *            prend ses valeur dans :
 	 *            <ul>
-	 *            <li>0 - demande créée par l'élève</li>
+	 *            <li>16 - demande créée par l'élève</li>
 	 *            <li>1 - demande acceptée par l'élève aprés modification du
 	 *            professeur</li>
 	 *            <li>2 - demande rejetée par l'élève aprés modification du
@@ -178,7 +178,7 @@ public class DemandeValidationConsoTempsAccPers {
 	public void setEtat(int etat) {
 		this.etat = etat;
 	}
-
+	
 	
 	@Override
 	public String toString() {
@@ -199,12 +199,12 @@ public class DemandeValidationConsoTempsAccPers {
 	  * On lui donne pour attribut le resultat de
 	  * dvctap.etat & DVCTAP_CREE == DVCTAP_CREE
 	  * 
-	  * @Return bool = True; si l'etat de dvctap = 7 : etat initial.
+	  * @Return bool = True; si l'etat de dvctap = 16 : etat initial.
 	  */
 	
 	public boolean isEtatInitial() {
 
-		boolean bool = ((this.etat & DVCTAP_CREE) != 0);
+		boolean bool = ((this.etat & DVCTAP_CREE) == DVCTAP_CREE);
 		return bool;
 	}
 	
@@ -271,7 +271,7 @@ public class DemandeValidationConsoTempsAccPers {
 	  *
 	  * Cet methode change l'etat de l'objet :
 	  *   -> DVCTAP_MODIF_ELEVE si les conditions sont respectees;
-	  *    - etat = 7; // etat initial
+	  *    - etat = 16; // etat initial
 	  *     OU
 	  *    - etat = 4; // etat modifie par l'eleve
 	  *   -> la valeur de l'attribut reste le meme, dans le cas contraire.
@@ -280,26 +280,36 @@ public class DemandeValidationConsoTempsAccPers {
 	public void setModifEleve() throws DVCTAPException{
 		if(this.isEtatInitial() || this.isModifEleve())
 			this.setEtat(DVCTAP_MODIF_ELEVE);
+		else throw new DVCTAPException("Impossible de passer dans l'état 'modifEleve'");
+			
 	}
 	
 	/**
 	  * Cet methode change l'etat de l'objet :
 	  *   -> DVCTAP_ANNULE_ELEVE si les conditions sont respectees;
-	  *    - etat = 7; // etat initial
+	  *    - etat = 16; // etat initial
 	  *     OU
 	  *    - etat = 4; // etat modifie par l'eleve
 	  *   -> la valeur de l'attribut reste le meme, dans le cas contraire.
-	*/
-	
+	*/	
 	public void setAnnuleEleve()throws DVCTAPException{
 		if(this.isEtatInitial() || this.isModifEleve())
 			this.setEtat(DVCTAP_ANNULE_ELEVE);
 	}
 
+	/**
+	 * passe l'état de l'objet à AcceptProf
+	 * @throws DVCTAPException si l'état actuel ne permet pas cette transition
+	 */
 	public void setAcceptProf()throws DVCTAPException{
 		if(this.isEtatInitial() || this.isModifEleve())
 			this.setEtat(DVCTAP_ACCEPT_PROF);
 	}
+	
+	/**
+	 * blabla
+	 * @throws DVCTAPException blabla
+	 */
 	public void setRefusProf()throws DVCTAPException{
 		if(this.isEtatInitial() || this.isModifEleve())
 			this.setEtat(DVCTAP_REFUS_PROF);
@@ -326,6 +336,11 @@ public class DemandeValidationConsoTempsAccPers {
 				|| this.isModifApProf())
 			this.setEtat(DVCTAP_ACCEPT_ELEVE_APRES_MODIF_PROF);
 	}
+	
+	/**
+	 * passe l'état de l'objet à RefusEleveModifProf
+	 * @throws DVCTAPException
+	 */
 	public void setRefusEleveModifProf()throws DVCTAPException{
 		if(this.isModifDateProf() || this.isModifDureeProf()
 				|| this.isModifApProf())
